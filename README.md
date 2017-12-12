@@ -1,21 +1,18 @@
-ID LOGIN
-    10211018015346590
+# Election
 
-GROUP ID
-    me?fields=groups
-RESULT:
-    10202128288868984
+This election web apps is based on facebook group
 
-GET LIST MEMBER
-    32898833878/members?offset=0&limit=5000
-    32898833878/members?limit=5000&after=ABCDE
+```bash
+$ composer install
+$ php artisan migrate
+$ php artisan serve
+```
 
-GET ADMIN LIST
-    32898833878/admins/
+rename `example-env.txt` to `.env`
 
-
-{
-    "name": "Ali Imron",
-    "id": "10202128288868984",
-    "administrator": false
-},
+dont forget to set this variable on `.env`, get the value from facebook app dev
+```bash
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+FACEBOOK_GROUP_ID=
+```
