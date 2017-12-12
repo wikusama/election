@@ -40,6 +40,8 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('/add', 'CandidateController@add')->name('candidateAdd');
         Route::post('/add', 'CandidateController@store')->name('candidateStore');
     });
+
+    Route::post('/voting', 'MainController@voting')->name('voting');
 });
 
 Route::get('storage/{filename}', 'CandidateController@picture');

@@ -66,7 +66,7 @@
 
                         </p>
                     </div>
-                    <a href="" class="btn btn-block {{ ($key%2==0)?'btn-danger':'btn-info' }}">vote for no. {{ $key+1 }}</a>
+                    <a href="#" class="btn btn-block {{ ($key%2==0)?'btn-warning':'btn-info' }} btn-vote" data-id="{{ $candidate->id }}">vote for no. {{ $key+1 }}</a>
                 </div>
             </div>
             @endforeach
@@ -85,8 +85,20 @@
                 if($(this).height() > maxHeight) maxHeight = $(this).height();
             });
 
-            $('.candidate-content').css('height', (maxHeight-30));
-        }, 1000);
+            $('.candidate-content').css('height', (maxHeight-50));
+        }, 500);
+
+        $('a.btn-vote').on('click', function(){
+            var data = {"id":$(this).attr('data-id')};
+            $.ajax({
+                method: 'POST',
+                url: '{{ route('voting') }}',
+                data: data
+            }).done(function( msg ) {
+                console.log(msg);
+            });
+            return false;
+        });
     });
 </script>
 @endsection
