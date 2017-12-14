@@ -174,11 +174,11 @@
             $.ajax({
                 method: 'POST',
                 url: '{{ route('voting') }}',
+                dataType: "json",
                 data: data
             }).done(function( msg ) {
                 $('#confirm-vote').modal('hide').removeClass('loading');
             }).success(function(res){
-                var data = JSON.parse(res);
                 if(data.success) location.reload();
             });
 
