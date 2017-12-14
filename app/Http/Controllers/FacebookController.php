@@ -171,7 +171,11 @@ class FacebookController extends Controller
             $pageCount++;
         } while ($pageCount < $maxPages && $group_members = $this->fb->next($group_members));
 
-        echo json_encode(['success' => true, 'pages' => $pageCount]);
+        echo json_encode([
+            'success' => true, 
+            'pages' => $pageCount,
+            'memberQty' =>  Member::count()
+        ]);
 
     }
 

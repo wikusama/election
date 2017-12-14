@@ -9,12 +9,14 @@
 <div class="section">
     <h2 class="title text-center">
         Group Member
-        <a href="{{ route('membersPost') }}" class="btn btn-sm btn-success"><span class="fa fa-refresh"></span></a>
+        <a href="{{ route('fbGetMembers') }}" class="btn btn-sm btn-success" id="member-retrieve"><span class="fa fa-refresh"></span></a>
     </h2>
 
     <div class="row">
         <div class="col-md-12">
-            {{ $members->currentPage() * $members->count() }} of {{ $members->total() }}
+            <h5>
+                {{ $members->currentPage() * $members->count() }} of <span id="member-total">{{ $members->total() }}</span>
+            </h5>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -40,4 +42,28 @@
     </div>
 
 </div>
+@endsection
+
+@section('after_script')
+<script>
+    $(function(){
+        $('a#member-retrieve').on('click', function(){
+            $(this).addClass('disabled')
+            $(this).find('.fa').addClass('fa-spin');
+
+            $.ajax({
+                method: 'POST',
+                url: $(this).attr('href'),
+                dataType: 'json'
+            }).success(function(res){
+                if(data.success){
+                    $('#member-total').text(data.memberQty);
+                    $(this).removeClass('disabled');
+                    $(this).find('.fa').removeClass('fa-spin');
+                };
+            });
+            return false;
+        });
+    });
+</script>
 @endsection

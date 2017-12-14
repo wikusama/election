@@ -18,7 +18,6 @@ Route::get('/facebook/login', 'FacebookController@login')->name('fbLogin');
 
 // Endpoint that is redirected to after an authentication attempt
 Route::get('/facebook/callback', 'FacebookController@callback')->name('fbCallback');
-Route::get('/facebook/get-members', 'FacebookController@groupMembers')->name('fbGetMembers');
 
 Route::get('/logout', 'FacebookController@logout')->name('logout');
 
@@ -26,8 +25,10 @@ Route::get('/logout', 'FacebookController@logout')->name('logout');
 Route::get('/', 'MainController@index')->name('home');
 Route::group(['middleware' => 'web'], function() {
     // facebook area
+    Route::post('/facebook/get-members', 'FacebookController@groupMembers')->name('fbGetMembers');
+
+    // administrative
     Route::get('/members', 'MemberController@index')->name('members');
-    Route::post('/members', 'MemberController@index')->name('membersPost');
     Route::get('/admins', 'MemberController@admin')->name('admins');
 
     // candidates area
