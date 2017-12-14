@@ -36,6 +36,7 @@ Route::group(['middleware' => 'web'], function() {
         Route::get('/', 'CandidateController@index')->name('candidates');
         Route::get('/add', 'CandidateController@add')->name('candidateAdd');
         Route::post('/add', 'CandidateController@store')->name('candidateStore');
+        Route::post('/delete/{id}', 'CandidateController@delete')->name('candidateDelete');
     });
 
     Route::post('/voting', 'MainController@voting')->name('voting');
