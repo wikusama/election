@@ -1,8 +1,7 @@
 @extends('layout.panel')
 
 @section('after_style')
-<style>
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endsection
 
 @section('content')
@@ -45,21 +44,27 @@
 @endsection
 
 @section('after_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(function(){
         $('a#member-retrieve').on('click', function(){
-            $(this).addClass('disabled')
-            $(this).find('.fa').addClass('fa-spin');
+            var $this = $(this);
+            $this.removeClass('btn-success');
+            $this.addClass('disabled btn-warning')
+            $this.find('.fa').addClass('fa-spin');
 
             $.ajax({
                 method: 'POST',
-                url: $(this).attr('href'),
+                url: $this.attr('href'),
                 dataType: 'json'
             }).success(function(res){
-                if(data.success){
-                    $('#member-total').text(data.memberQty);
-                    $(this).removeClass('disabled');
-                    $(this).find('.fa').removeClass('fa-spin');
+                if(res.success){
+                    $('#member-total').text(res.loadedMember);
+                    $this.addClass('btn-success');
+                    $this.removeClass('disabled btn-warning');
+                    $this.find('.fa').removeClass('fa-spin');
+
+                    toastr.success(res.loadedMember + ' data loaded from ' + res.memberQty + ' people in groups');
                 };
             });
             return false;

@@ -88,6 +88,8 @@ class FacebookController extends Controller
         $user->save();
 
         $this->groupAdmins();
+
+        $this->groupStats();
     
         return redirect('/')->with('message', 'Successfully logged in with Facebook');
     }
@@ -122,6 +124,28 @@ class FacebookController extends Controller
 
         foreach ($group_admin as $key => $value) {
             Admin::createOrUpdateGraphNode($value);
+        }
+
+    }
+    
+    protected function groupStats()
+    {
+        $this->fb->setDefaultAccessToken(Session::get('fb_user_access_token'));
+        try {
+            $response = $this->fb->get('/'.env('FACEBOOK_GROUP_ID').'?fields=members.limit(0).summary(true)');
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            dd($e->getMessage());
+        }
+
+        $groups = $response->getGraphUser();
+        $stats = $groups['members']->getMetaData();
+
+        $total_count = Graph::where('const', 'group.summary.total_count')->first();
+        if(!$total_count){
+            Graph::create(['const' => 'group.summary.total_count', 'val' => $stats['summary']['total_count']]);
+        } else {
+            $total_count->val = $stats['summary']['total_count'];
+            $total_count->save();
         }
 
     }
@@ -171,10 +195,13 @@ class FacebookController extends Controller
             $pageCount++;
         } while ($pageCount < $maxPages && $group_members = $this->fb->next($group_members));
 
+        $total_count = Graph::where('const', 'group.summary.total_count')->first();
+
         echo json_encode([
             'success' => true, 
             'pages' => $pageCount,
-            'memberQty' =>  Member::count()
+            'loadedMember' =>  Member::count(),
+            'memberQty' => $total_count->val
         ]);
 
     }
