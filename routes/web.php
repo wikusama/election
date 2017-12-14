@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/hello', function () {
-    echo 'hello world';
-});
-
-
 // Generate a login URL
 Route::get('/facebook/login', 'FacebookController@login')->name('fbLogin');
 
@@ -32,6 +27,7 @@ Route::get('/', 'MainController@index')->name('home');
 Route::group(['middleware' => 'web'], function() {
     // facebook area
     Route::get('/members', 'MemberController@index')->name('members');
+    Route::post('/members', 'MemberController@index')->name('membersPost');
     Route::get('/admins', 'MemberController@admin')->name('admins');
 
     // candidates area

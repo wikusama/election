@@ -7,7 +7,10 @@
 
 @section('content')
 <div class="section">
-    <h2 class="title text-center">Group Member</h2>
+    <h2 class="title text-center">
+        Group Member
+        <a href="{{ route('membersPost') }}" class="btn btn-sm btn-success"><span class="fa fa-refresh"></span></a>
+    </h2>
 
     <div class="row">
         <div class="col-md-12">

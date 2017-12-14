@@ -33,8 +33,7 @@ class MainController extends Controller
         $candidate = Candidate::find($request->id);
 
         echo json_encode([
-            'success' => true,
-            'data' => $candidate
+            'success' => true
         ]);
     }
 }

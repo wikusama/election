@@ -32,4 +32,8 @@ class User extends Authenticatable
     public function admins(){
         return $this->hasOne('App\Models\Admin', 'id', 'group_id');
     }
+    
+    public function members(){
+        return $this->hasOne('App\Models\Member', 'id', 'group_id');
+    }
 }
