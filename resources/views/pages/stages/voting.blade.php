@@ -179,7 +179,7 @@
             }).done(function( msg ) {
                 $('#confirm-vote').modal('hide').removeClass('loading');
             }).success(function(res){
-                if(data.success) location.reload();
+                if(res.success) location.reload();
             });
 
         });
