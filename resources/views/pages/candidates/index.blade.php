@@ -34,21 +34,18 @@
                         <td rowspan="2" align="center">
                             {{ $key+1 }}
                             <br>
-                            <a href="#" class="btn btn-sm btn-warning">
-                                <span class="fa fa-pencil"></span>
-                            </a><br>
                             <a href="{{ route('candidateDelete', $candidate->id) }}" data-no="{{ $key + 1 }}" class="btn btn-sm btn-danger btn-delete">
                                 <span class="fa fa-trash"></span>
                             </a>
                         </td>
                         <td>
                             {{ $candidate->lead_name }} <br>
-                            <img src="{{ '/storage/'.$candidate->lead_pic }}" alt="" class="img-rounded">
+                            <img src="{{ $candidate->lead_pic }}" alt="" class="img-rounded">
                         </td>
                         <td>{!! $candidate->lead_about !!}</td>
                         <td>
                             {{ $candidate->deputy_name }} <br>
-                            <img src="{{ '/storage/'.$candidate->deputy_pic }}" alt="" class="img-rounded">
+                            <img src="{{ $candidate->deputy_pic }}" alt="" class="img-rounded">
                         </td>
                         <td>{!! $candidate->deputy_about !!}</td>
                     </tr>

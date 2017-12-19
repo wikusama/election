@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use File;
 use Auth;
+use Image;
 use SammyK;
 use Storage;
 use Validator;
@@ -58,16 +59,16 @@ class CandidateController extends Controller
         $candidate->mission = $request->mission;
 
         // generating pic lead
-        $lead_pic = 'lead_'.md5($request->file('lead_pic')->getClientOriginalName()).'.'.($request->file('lead_pic')->getClientOriginalExtension());
-        Storage::disk('public')->put($lead_pic, file_get_contents($request->file('lead_pic')));
-        
+        if($request->hasFile('lead_pic')) {
+            $lead_pic = $this->getImageString($request->file('lead_pic'));
+            $candidate->lead_pic = $lead_pic;
+        }
+
         // generating pic deputy
-        $deputy_pic = 'deputy_'.md5($request->file('deputy_pic')->getClientOriginalName()).'.'.($request->file('deputy_pic')->getClientOriginalExtension());
-        Storage::disk('public')->put($deputy_pic, file_get_contents($request->file('deputy_pic')));
-
-
-        $candidate->lead_pic = $lead_pic;
-        $candidate->deputy_pic = $deputy_pic;
+        if($request->hasFile('deputy_pic')) {
+            $deputy_pic = $this->getImageString($request->file('deputy_pic'));
+            $candidate->deputy_pic = $deputy_pic;
+        }
 
         $candidate->save();
 
@@ -75,30 +76,25 @@ class CandidateController extends Controller
 
     }
 
-    public function picture($filename)
-    {
-        $path = storage_path('public/' . $filename);
+    public function getImageString($file){
+        $image = $file;
+        $imageType = $image->getClientOriginalExtension();
+        $imageStr = (string) Image::make( $image )
+            ->resize( 300, null, function ( $constraint ) {
+                $constraint->aspectRatio();
+            })->encode( $imageType );
+            
+        $imageStr = base64_encode($imageStr);
+        $data = "data:image/{$imageType};base64,{$imageStr}";
         
-        if (!File::exists($path)) {
-            abort(404);
-        }
-    
-        $file = File::get($path);
-        $type = File::mimeType($path);
-    
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-    
-        return $response;
+        return $data;
     }
 
     public function delete(Request $request, $id)
     {
         Member::where('voted_at', $id)->update(['voted_at' => 0]);
         
-        $candidate = Candidate::where('id', $id)->first();
-        Storage::disk('public')->delete([$candidate->lead_pic, $candidate->deputy_pic]);
-        $candidate->delete();
+        Candidate::where('id', $id)->delete();
 
         echo json_encode([
             'success' => true

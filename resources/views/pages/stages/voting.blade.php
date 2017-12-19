@@ -43,13 +43,13 @@
                         </div>
                         <div class="row text-center">
                             <div class="col-md-6">
-                                <img src="{{ '/storage/'.$candidate->lead_pic }}" alt="Thumbnail Image" class="img-raised img-rounded">
+                                <img src="{{ $candidate->lead_pic }}" alt="Thumbnail Image" class="img-raised img-rounded">
                                 <h4 class="title">{{ $candidate->lead_name }}<br />
                                     <button class="btn btn-info btn-xs btn-{{ ($key%2==0)?'warning':'info' }}" data-toggle="modal" data-target="#about-lead-{{ $key }}">About</button>
                                 </h4>
                             </div>
                             <div class="col-md-6">
-                                <img src="{{ '/storage/'.$candidate->deputy_pic }}" alt="Thumbnail Image" class="img-raised img-rounded">
+                                <img src="{{ $candidate->deputy_pic }}" alt="Thumbnail Image" class="img-raised img-rounded">
                                 <h4 class="title">{{ $candidate->deputy_name }}<br />
                                     <button class="btn btn-info btn-xs btn-{{ ($key%2==0)?'warning':'info' }}" data-toggle="modal" data-target="#about-deputy-{{ $key }}">About</button>
                                 </h4>

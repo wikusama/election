@@ -46,5 +46,3 @@ Route::group(['middleware' => 'web'], function() {
         Route::post('/header', 'ConfigController@headerStore')->name('configHeaderStore');
     });
 });
-
-Route::get('storage/{filename}', 'CandidateController@picture');
