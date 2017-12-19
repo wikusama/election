@@ -40,6 +40,11 @@ Route::group(['middleware' => 'web'], function() {
     });
 
     Route::post('/voting', 'MainController@voting')->name('voting');
+
+    Route::prefix('config')->group(function () {
+        Route::get('/header', 'ConfigController@header')->name('configHeader');
+        Route::post('/header', 'ConfigController@headerStore')->name('configHeaderStore');
+    });
 });
 
 Route::get('storage/{filename}', 'CandidateController@picture');

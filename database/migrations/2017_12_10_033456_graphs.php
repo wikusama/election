@@ -16,7 +16,7 @@ class Graphs extends Migration
         Schema::create('graphs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('const');
-            $table->string('val');
+            $table->text('val');
             $table->timestamps();
         });
     }
