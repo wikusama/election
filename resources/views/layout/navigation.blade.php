@@ -25,6 +25,7 @@
 								<li><a href="{{ route('configHeader') }}">Config Header</a></li>
 								<li><a href="{{ route('admins') }}">Group Admin</a></li>
 								<li><a href="{{ route('members') }}">Group Members</a></li>
+								<li><a href="{{ route('result') }}">Result</a></li>
 							</ul>
 						</li>
 						@endif

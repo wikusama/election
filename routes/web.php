@@ -23,6 +23,7 @@ Route::get('/logout', 'FacebookController@logout')->name('logout');
 
 
 Route::get('/', 'MainController@index')->name('home');
+Route::get('/result', 'MainController@result')->name('result');
 Route::group(['middleware' => 'web'], function() {
     // facebook area
     Route::post('/facebook/get-members', 'FacebookController@groupMembers')->name('fbGetMembers');
