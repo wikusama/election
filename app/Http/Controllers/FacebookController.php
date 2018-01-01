@@ -83,9 +83,12 @@ class FacebookController extends Controller
 
         $group_id = $this->myGroupId();
 
-        $user->group_id = $group_id;
-
         $user->save();
+        
+        // set group id for users
+        $user_for_group = User::where('id', Auth::user()->id)->first();
+        $user_for_group->group_id = $group_id;
+        $user_for_group->save();
 
         $this->groupAdmins();
 
